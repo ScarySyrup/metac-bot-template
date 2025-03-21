@@ -185,6 +185,9 @@ class Q1TemplateBot(ForecastBot):
         logger.info(
             f"Forecasted {question.page_url} as {prediction} with reasoning:\n{reasoning}"
         )
+        prediction = 0.5
+        reasoning = "Prediction overridden: always 0.5"
+         logger.info(f"Forecasted {question.page_url} as {prediction} with reasoning:\n{reasoning}")
         return ReasonedPrediction(prediction_value=prediction, reasoning=reasoning)
 
     async def _run_forecast_on_multiple_choice(
@@ -236,6 +239,10 @@ class Q1TemplateBot(ForecastBot):
         logger.info(
             f"Forecasted {question.page_url} as {prediction} with reasoning:\n{reasoning}"
         )
+        num_options = len(question.options)
+        prediction = {(1 / num_options) for option in question.options}
+         reasoning = "uniform"
+        logger.info(f"Forecasted {question.page_url} as {prediction} with reasoning:\n{reasoning}")
         return ReasonedPrediction(prediction_value=prediction, reasoning=reasoning)
 
     async def _run_forecast_on_numeric(
@@ -302,6 +309,10 @@ class Q1TemplateBot(ForecastBot):
         logger.info(
             f"Forecasted {question.page_url} as {prediction.declared_percentiles} with reasoning:\n{reasoning}"
         )
+        declared_percentiles = {percentile: 1 for percentile in ["Percentile 10", "Percentile 20", "Percentile 40", "Percentile 60", "Percentile 80", "Percentile 90"]}
+        reasoning = "1 for all percentiles"
+        prediction = NumericDistribution(declared_percentiles=declared_percentiles)
+        logger.info(f"Forecasted {question.page_url} as {declared_percentiles} with reasoning:\n{reasoning}")
         return ReasonedPrediction(prediction_value=prediction, reasoning=reasoning)
 
     def _create_upper_and_lower_bound_messages(
