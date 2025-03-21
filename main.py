@@ -187,7 +187,7 @@ class Q1TemplateBot(ForecastBot):
         )
         prediction = 0.5
         reasoning = "Prediction overridden: always 0.5"
-         logger.info(f"Forecasted {question.page_url} as {prediction} with reasoning:\n{reasoning}")
+        logger.info(f"Forecasted {question.page_url} as {prediction} with reasoning:\n{reasoning}")
         return ReasonedPrediction(prediction_value=prediction, reasoning=reasoning)
 
     async def _run_forecast_on_multiple_choice(
@@ -241,7 +241,7 @@ class Q1TemplateBot(ForecastBot):
         )
         num_options = len(question.options)
         prediction = {(1 / num_options) for option in question.options}
-         reasoning = "uniform"
+        reasoning = "uniform"
         logger.info(f"Forecasted {question.page_url} as {prediction} with reasoning:\n{reasoning}")
         return ReasonedPrediction(prediction_value=prediction, reasoning=reasoning)
 
